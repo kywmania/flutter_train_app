@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SeatPage extends StatefulWidget {
@@ -12,7 +13,9 @@ class SeatPage extends StatefulWidget {
 
 class _SeatPageState extends State<SeatPage> {
   final int seatNum = 20;
-
+  List<List<bool>> selectedSeat = 
+    List.generate(4, 
+    (row) => List.generate(20, (col) => false));
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +31,9 @@ class _SeatPageState extends State<SeatPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                selectedSeat(Colors.purple),
+                exSeat(Colors.purple),
                 SizedBox(width: 20,),
-                selectedSeat(Colors.grey.shade300),
+                exSeat(Colors.grey.shade300),
               ],
             ),
           ),
@@ -70,7 +73,48 @@ class _SeatPageState extends State<SeatPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
             child: ElevatedButton(
-              onPressed: (){},
+              onPressed: (){
+                for(int i=0; i<selectedSeat.length; i++){
+                  for(int j=0; j<selectedSeat[i].length; j++){
+                    if(selectedSeat[i][j] == true){
+                      showCupertinoDialog(
+                        context: context,
+                        builder: (context){
+                          return CupertinoAlertDialog(
+                            title: Text('예매 하시겠습니까?'),
+                            content: Text('좌석 : ${String.fromCharCode(65+i)}-${j+1}'),
+                            actions: [
+                              CupertinoDialogAction(
+                                child: Text('취소',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: Text('확인',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                      );
+                    }
+                  }
+                }
+
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
                 foregroundColor: Colors.white,
@@ -120,7 +164,7 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
-  Widget selectedSeat(Color color){
+  Widget exSeat(Color color){
     return Row(
       children: [
         Container(
@@ -138,6 +182,8 @@ class _SeatPageState extends State<SeatPage> {
   }
 
   Widget seat(String col) {
+    int i = col.codeUnitAt(0) - 65;
+
   return Column(
     children: [
       Container(
@@ -152,13 +198,20 @@ class _SeatPageState extends State<SeatPage> {
       Column(
         children: List.generate(
           seatNum,
-          (index) => Padding(
+          (j) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-            child: Container(
-              width: 50, height: 50,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(8),
+            child: GestureDetector(
+              onTap: (){
+                setState(() {
+                  selectedSeat[i][j] = !selectedSeat[i][j];
+                });
+              },
+              child: Container(
+                width: 50, height: 50,
+                decoration: BoxDecoration(
+                  color: selectedSeat[i][j] ? Colors.purple :Colors.grey[300],
+                  borderRadius: BorderRadius.circular(8),
+                ),
               ),
             ),
           ),
