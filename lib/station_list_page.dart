@@ -30,7 +30,7 @@ class StationListPage extends StatelessWidget {
   Widget station(String station, BuildContext context){
     return GestureDetector(
       onTap: (){
-        Navigator.pop(context);
+        Navigator.pop(context, station);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

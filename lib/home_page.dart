@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_train_app/station_list_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  String startStation = '선택';
+  String endStation = '선택';
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +35,13 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  selectStation('출발역', '선택', context),
+                  selectStation('start', startStation, context),
                   Container(
                     width: 2,
                     height: 50,
                     color: Colors.grey[400],
                   ),
-                  selectStation('도착역', '선택', context),
+                  selectStation('end', endStation, context),
                 ],
               ),
             ),
@@ -70,21 +79,27 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-  
-  Widget selectStation(String route, String station, BuildContext context){
+
+  Widget selectStation(String stationType, String station, BuildContext context){
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, 
+      onTap: () async {
+        String? selectedStation = await Navigator.push(context, 
           MaterialPageRoute(builder: (context) =>
             StationListPage(),
           ),
         );
+
+        setState(() {
+          station = selectedStation ?? '선택';
+          if(stationType == 'start'){startStation = station;}
+          if(stationType == 'end'){endStation = station;}
+        });
       },
       child: SizedBox(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(route,
+            Text(stationType == 'start' ? '출발역' : '도착역',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey
