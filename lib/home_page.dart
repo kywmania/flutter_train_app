@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_train_app/station_list_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -25,13 +26,13 @@ class HomePage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  selectStation('출발역', '선택'),
+                  selectStation('출발역', '선택', context),
                   Container(
                     width: 2,
                     height: 50,
                     color: Colors.grey[400],
                   ),
-                  selectStation('도착역', '선택'),
+                  selectStation('도착역', '선택', context),
                 ],
               ),
             ),
@@ -42,16 +43,23 @@ class HomePage extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) =>
+                      StationListPage(),
+                    ),
+                  );
+                },
                 child: Text('좌석 선택',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
                   ),
                 ),
               ),
@@ -63,24 +71,33 @@ class HomePage extends StatelessWidget {
     );
   }
   
-  Widget selectStation(String route, String station){
-    return SizedBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(route,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey
-            ),
+  Widget selectStation(String route, String station, BuildContext context){
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, 
+          MaterialPageRoute(builder: (context) =>
+            StationListPage(),
           ),
-          Text(station,
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.w500,
+        );
+      },
+      child: SizedBox(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(route,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey
+              ),
             ),
-          ),
-        ],
+            Text(station,
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
