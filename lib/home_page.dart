@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_train_app/seat_page.dart';
 import 'package:flutter_train_app/station_list_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -58,12 +59,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 onPressed: (){
+                  if(startStation != '선택' && endStation != '선택'){
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                      StationListPage(),
+                      SeatPage(startStation: startStation,
+                                endStation: endStation,),
                     ),
-                  );
+                  );}
                 },
                 child: Text('좌석 선택',
                   style: TextStyle(

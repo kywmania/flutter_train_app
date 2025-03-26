@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 
-class SeatPage extends StatelessWidget {
-  const SeatPage({super.key});
+class SeatPage extends StatefulWidget {
+  const SeatPage({super.key, required this.startStation, required this.endStation});
 
+  final String startStation;
+  final String endStation;
+
+  @override
+  State<SeatPage> createState() => _SeatPageState();
+}
+
+class _SeatPageState extends State<SeatPage> {
   final int seatNum = 20;
-  
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +101,7 @@ class SeatPage extends StatelessWidget {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text('수서',
+          Text(widget.startStation,
             style: TextStyle(
               fontSize: 40,
               fontWeight: FontWeight.bold,
@@ -100,7 +109,7 @@ class SeatPage extends StatelessWidget {
             ),
           ),
           Icon(Icons.arrow_circle_right_outlined, size: 40,),
-          Text('부산',
+          Text(widget.endStation,
             style: TextStyle(
               fontSize: 40,
               fontWeight: FontWeight.bold,
@@ -110,7 +119,7 @@ class SeatPage extends StatelessWidget {
         ],
     );
   }
-  
+
   Widget selectedSeat(Color color){
     return Row(
       children: [
@@ -158,5 +167,4 @@ class SeatPage extends StatelessWidget {
     ],
   );
 }
-
 }
