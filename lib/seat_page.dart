@@ -22,6 +22,8 @@ class _SeatPageState extends State<SeatPage> {
     (row) => List.generate(seatNum, (col) => false),
   );
 
+  List<List<int>> selectedSeatList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,46 +82,43 @@ class _SeatPageState extends State<SeatPage> {
                 for (int i = 0; i < selectedSeat.length; i++) {
                   for (int j = 0; j < selectedSeat[i].length; j++) {
                     if (selectedSeat[i][j] == true) {
-                      showCupertinoDialog(
-                        context: context,
-                        builder: (context) {
-                          return CupertinoAlertDialog(
-                            title: Text('예매 하시겠습니까?'),
-                            content: Text(
-                              '좌석 : ${String.fromCharCode(65 + i)}-${j + 1}',
-                            ),
-                            actions: [
-                              CupertinoDialogAction(
-                                child: Text(
-                                  '취소',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              CupertinoDialogAction(
-                                child: Text(
-                                  '확인',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.blue,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      setState(() {
+                        selectedSeatList.add([i + 1, j + 1]);
+                      });
                     }
                   }
                 }
+                showCupertinoDialog(
+                  context: context,
+                  builder: (context) {
+                    return CupertinoAlertDialog(
+                      title: Text('예매 하시겠습니까?'),
+                      content: Text('좌석 : ${selectedSeatList}'),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: Text(
+                            '취소',
+                            style: TextStyle(fontSize: 18, color: Colors.red),
+                          ),
+                          onPressed: () {
+                            selectedSeatList.clear();
+                            Navigator.pop(context);
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          child: Text(
+                            '확인',
+                            style: TextStyle(fontSize: 18, color: Colors.blue),
+                          ),
+                          onPressed: () {
+                            selectedSeatList.clear();
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
@@ -205,11 +204,12 @@ class _SeatPageState extends State<SeatPage> {
               padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
               child: GestureDetector(
                 onTap: () {
-                  setState(() { //단일 좌석만 선택 가능하도록 변경
-                    selectedSeat = List.generate(
+                  setState(() {
+                    //단일 좌석만 선택 가능하도록 변경
+                    /*selectedSeat = List.generate(
                       4,
                       (row) => List.generate(seatNum, (col) => false),
-                    );
+                    );*/
                     selectedSeat[i][j] = !selectedSeat[i][j];
                   });
                 },
