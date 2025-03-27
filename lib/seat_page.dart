@@ -22,7 +22,7 @@ class _SeatPageState extends State<SeatPage> {
     (row) => List.generate(seatNum, (col) => false),
   );
 
-  List<List<int>> selectedSeatList = [];
+  List<List<String>> selectedSeatList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class _SeatPageState extends State<SeatPage> {
                   for (int j = 0; j < selectedSeat[i].length; j++) {
                     if (selectedSeat[i][j] == true) {
                       setState(() {
-                        selectedSeatList.add([i + 1, j + 1]);
+                        selectedSeatList.add([String.fromCharCode(i+65), '${j + 1}']); //선택한 좌석 리스트에 [A, 1] 형태로 저장
                       });
                     }
                   }
@@ -93,6 +93,7 @@ class _SeatPageState extends State<SeatPage> {
                   builder: (context) {
                     return CupertinoAlertDialog(
                       title: Text('예매 하시겠습니까?'),
+                      // 선택한 좌석 목록 출력
                       content: Text('좌석 : ${selectedSeatList}'),
                       actions: [
                         CupertinoDialogAction(
