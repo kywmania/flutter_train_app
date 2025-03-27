@@ -10,17 +10,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   String startStation = '선택';
   String endStation = '선택';
+  String? selectedStation;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        title: Text('기차 예매'),
-      ),
+      appBar: AppBar(title: Text('기차 예매')),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -36,17 +34,13 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  selectStation('start', startStation, context),
-                  Container(
-                    width: 2,
-                    height: 50,
-                    color: Colors.grey[400],
-                  ),
-                  selectStation('end', endStation, context),
+                  selectStation('start', context),
+                  Container(width: 2, height: 50, color: Colors.grey[400]),
+                  selectStation('end', context),
                 ],
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               height: 56,
@@ -58,61 +52,72 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                onPressed: (){
-                  if(startStation != '선택' && endStation != '선택'){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>
-                      SeatPage(startStation: startStation,
-                                endStation: endStation,),
-                    ),
-                  );}
+                onPressed: () {
+                  if (startStation != '선택' && endStation != '선택') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => SeatPage(
+                              startStation: startStation,
+                              endStation: endStation,
+                            ),
+                      ),
+                    );
+                  }
                 },
-                child: Text('좌석 선택',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Text(
+                  '좌석 선택',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-            SizedBox(height: 100,),
+            SizedBox(height: 100),
           ],
         ),
       ),
     );
   }
 
-  Widget selectStation(String stationType, String station, BuildContext context){
+  Widget selectStation(String stationType, BuildContext context) {
+    final String station = stationType == 'start' ? startStation : endStation;
     return GestureDetector(
       onTap: () async {
-        String? selectedStation = await Navigator.push(context, 
-          MaterialPageRoute(builder: (context) =>
-            StationListPage(),
+        //print('${stationType == "start"} endstation: $endStation startstation: $startStation');
+        selectedStation = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder:
+                (context) => StationListPage(
+                  selectedStation:
+                      stationType == 'start' ? endStation : startStation,
+                ),
           ),
         );
-
+        //print('selectedStation: $selectedStation');
+        if (selectedStation == null) {
+          return;
+        }
         setState(() {
-          station = selectedStation ?? '선택';
-          if(stationType == 'start'){startStation = station;}
-          if(stationType == 'end'){endStation = station;}
+          if (stationType == 'start') {
+            startStation = selectedStation!;
+          }
+          if (stationType == 'end') {
+            endStation = selectedStation!;
+          }
         });
       },
       child: SizedBox(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(stationType == 'start' ? '출발역' : '도착역',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey
-              ),
+            Text(
+              stationType == 'start' ? '출발역' : '도착역',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
-            Text(station,
-              style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.w500,
-              ),
+            Text(
+              station,
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500),
             ),
           ],
         ),

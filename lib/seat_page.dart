@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SeatPage extends StatefulWidget {
-  const SeatPage({super.key, required this.startStation, required this.endStation});
+  const SeatPage({
+    super.key,
+    required this.startStation,
+    required this.endStation,
+  });
 
   final String startStation;
   final String endStation;
@@ -13,26 +17,25 @@ class SeatPage extends StatefulWidget {
 
 class _SeatPageState extends State<SeatPage> {
   final int seatNum = 20;
-  List<List<bool>> selectedSeat = 
-    List.generate(4, 
-    (row) => List.generate(20, (col) => false));
+  late List<List<bool>> selectedSeat = List.generate(
+    4,
+    (row) => List.generate(seatNum, (col) => false),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('좌석 선택'),
-      ),
+      appBar: AppBar(title: Text('좌석 선택')),
       body: Column(
         children: [
           route(),
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 exSeat(Colors.purple),
-                SizedBox(width: 20,),
+                SizedBox(width: 20),
                 exSeat(Colors.grey.shade300),
               ],
             ),
@@ -47,18 +50,18 @@ class _SeatPageState extends State<SeatPage> {
                     seat('B'),
                     Column(
                       children: [
-                        SizedBox(width: 50, height: 50,),
-                        for(int i=1; i<=seatNum; i++)
+                        SizedBox(width: 50, height: 50),
+                        for (int i = 1; i <= seatNum; i++)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 2,
+                              vertical: 4,
+                            ),
                             child: Container(
                               alignment: Alignment.center,
-                              width: 50, height: 50,
-                              child: Text('$i',
-                                style: TextStyle(
-                                  fontSize: 18
-                                ),
-                              ),
+                              width: 50,
+                              height: 50,
+                              child: Text('$i', style: TextStyle(fontSize: 18)),
                             ),
                           ),
                       ],
@@ -73,64 +76,65 @@ class _SeatPageState extends State<SeatPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
             child: ElevatedButton(
-              onPressed: (){
-                for(int i=0; i<selectedSeat.length; i++){
-                  for(int j=0; j<selectedSeat[i].length; j++){
-                    if(selectedSeat[i][j] == true){
+              onPressed: () {
+                for (int i = 0; i < selectedSeat.length; i++) {
+                  for (int j = 0; j < selectedSeat[i].length; j++) {
+                    if (selectedSeat[i][j] == true) {
                       showCupertinoDialog(
                         context: context,
-                        builder: (context){
+                        builder: (context) {
                           return CupertinoAlertDialog(
                             title: Text('예매 하시겠습니까?'),
-                            content: Text('좌석 : ${String.fromCharCode(65+i)}-${j+1}'),
+                            content: Text(
+                              '좌석 : ${String.fromCharCode(65 + i)}-${j + 1}',
+                            ),
                             actions: [
                               CupertinoDialogAction(
-                                child: Text('취소',
+                                child: Text(
+                                  '취소',
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.red,
                                   ),
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.pop(context);
                                 },
                               ),
                               CupertinoDialogAction(
-                                child: Text('확인',
+                                child: Text(
+                                  '확인',
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.blue,
                                   ),
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Navigator.pop(context);
                                 },
                               ),
                             ],
                           );
-                        }
+                        },
                       );
                     }
                   }
                 }
-
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
+                  borderRadius: BorderRadius.circular(20),
                 ),
               ),
               child: SizedBox(
                 width: double.infinity,
                 height: 56,
                 child: Center(
-                  child: Text('예매 하기',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Text(
+                    '예매 하기',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -141,30 +145,32 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
-  Widget route(){
+  Widget route() {
     return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(widget.startStation,
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Colors.purple,
-            ),
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(
+          widget.startStation,
+          style: TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+            color: Colors.purple,
           ),
-          Icon(Icons.arrow_circle_right_outlined, size: 40,),
-          Text(widget.endStation,
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Colors.purple,
-            ),
+        ),
+        Icon(Icons.arrow_circle_right_outlined, size: 40),
+        Text(
+          widget.endStation,
+          style: TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+            color: Colors.purple,
           ),
-        ],
+        ),
+      ],
     );
   }
 
-  Widget exSeat(Color color){
+  Widget exSeat(Color color) {
     return Row(
       children: [
         Container(
@@ -172,10 +178,10 @@ class _SeatPageState extends State<SeatPage> {
           height: 24,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(8)
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
-        SizedBox(width: 4,),
+        SizedBox(width: 4),
         Text('선택됨'),
       ],
     );
@@ -184,40 +190,39 @@ class _SeatPageState extends State<SeatPage> {
   Widget seat(String col) {
     int i = col.codeUnitAt(0) - 65;
 
-  return Column(
-    children: [
-      Container(
-        alignment: Alignment.bottomCenter,
-        width: 50, height: 50,
-        child: Text(col,
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        )
-      ),
-      Column(
-        children: List.generate(
-          seatNum,
-          (j) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-            child: GestureDetector(
-              onTap: (){
-                setState(() {
-                  selectedSeat[i][j] = !selectedSeat[i][j];
-                });
-              },
-              child: Container(
-                width: 50, height: 50,
-                decoration: BoxDecoration(
-                  color: selectedSeat[i][j] ? Colors.purple :Colors.grey[300],
-                  borderRadius: BorderRadius.circular(8),
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.bottomCenter,
+          width: 50,
+          height: 50,
+          child: Text(col, style: TextStyle(fontSize: 18)),
+        ),
+        Column(
+          children: List.generate(
+            seatNum,
+            (j) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedSeat[i][j] = !selectedSeat[i][j];
+                  });
+                },
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color:
+                        selectedSeat[i][j] ? Colors.purple : Colors.grey[300],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
 }

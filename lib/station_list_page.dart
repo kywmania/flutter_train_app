@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class StationListPage extends StatelessWidget {
-  const StationListPage({super.key});
+  const StationListPage({super.key, this.selectedStation = ''});
+
+  final String selectedStation;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('출발역'),
-      ),
+      appBar: AppBar(title: Text('출발역')),
       body: ListView(
         children: [
           station('수서', context),
@@ -27,9 +27,12 @@ class StationListPage extends StatelessWidget {
     );
   }
 
-  Widget station(String station, BuildContext context){
+  Widget station(String station, BuildContext context) {
+    if (station == selectedStation) {
+      return SizedBox();
+    }
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.pop(context, station);
       },
       child: Column(
@@ -39,18 +42,13 @@ class StationListPage extends StatelessWidget {
             alignment: Alignment.centerLeft,
             height: 50,
             decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(
-                color: Colors.grey.shade300,
-              )),
+              border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 20,),
+              padding: const EdgeInsets.only(left: 20),
               child: Text(
                 station,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
           ),
