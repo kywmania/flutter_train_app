@@ -205,7 +205,11 @@ class _SeatPageState extends State<SeatPage> {
               padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
               child: GestureDetector(
                 onTap: () {
-                  setState(() {
+                  setState(() { //단일 좌석만 선택 가능하도록 변경
+                    selectedSeat = List.generate(
+                      4,
+                      (row) => List.generate(seatNum, (col) => false),
+                    );
                     selectedSeat[i][j] = !selectedSeat[i][j];
                   });
                 },
@@ -214,7 +218,9 @@ class _SeatPageState extends State<SeatPage> {
                   height: 50,
                   decoration: BoxDecoration(
                     color:
-                        selectedSeat[i][j] ? Colors.purple : Theme.of(context).unselectedWidgetColor,
+                        selectedSeat[i][j]
+                            ? Colors.purple
+                            : Theme.of(context).unselectedWidgetColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
