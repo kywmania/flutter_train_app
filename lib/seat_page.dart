@@ -36,7 +36,7 @@ class _SeatPageState extends State<SeatPage> {
               children: [
                 exSeat(Colors.purple),
                 SizedBox(width: 20),
-                exSeat(Colors.grey.shade300),
+                exSeat(Theme.of(context).unselectedWidgetColor),
               ],
             ),
           ),
@@ -214,7 +214,7 @@ class _SeatPageState extends State<SeatPage> {
                   height: 50,
                   decoration: BoxDecoration(
                     color:
-                        selectedSeat[i][j] ? Colors.purple : Colors.grey[300],
+                        selectedSeat[i][j] ? Colors.purple : Theme.of(context).unselectedWidgetColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),

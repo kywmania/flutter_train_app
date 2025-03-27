@@ -8,6 +8,7 @@ class StationListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(title: Text('출발역')),
       body: ListView(
         children: [

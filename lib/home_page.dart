@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(title: Text('기차 예매')),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               height: 200,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
