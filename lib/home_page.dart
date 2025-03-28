@@ -10,6 +10,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // 출발역과 도착역을 나타내는 변수 (초기값: '선택')
   String startStation = '선택';
   String endStation = '선택';
   String? selectedStation;
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // 출발역과 도착역을 선택하는 UI
             Container(
               width: double.infinity,
               height: 200,
@@ -41,6 +43,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 20),
+            // 좌석 선택 버튼
             SizedBox(
               width: double.infinity,
               height: 56,
@@ -53,15 +56,15 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 onPressed: () {
+                  // 출발역과 도착역이 선택된 경우에만 좌석 선택 화면으로 이동
                   if (startStation != '선택' && endStation != '선택') {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder:
-                            (context) => SeatPage(
-                              startStation: startStation,
-                              endStation: endStation,
-                            ),
+                        builder: (context) => SeatPage(
+                          startStation: startStation,
+                          endStation: endStation,
+                        ),
                       ),
                     );
                   }
@@ -79,25 +82,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // 출발역 및 도착역 선택 위젯
   Widget selectStation(String stationType, BuildContext context) {
     final String station = stationType == 'start' ? startStation : endStation;
     return GestureDetector(
       onTap: () async {
-        //print('${stationType == "start"} endstation: $endStation startstation: $startStation');
+        // 역 선택 페이지로 이동하여 선택된 역을 받아옴
         selectedStation = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder:
-                (context) => StationListPage(
-                  selectedStation:
-                      stationType == 'start' ? endStation : startStation,
-                ),
+            builder: (context) => StationListPage(
+              selectedStation: stationType == 'start' ? endStation : startStation,
+            ),
           ),
         );
-        //print('selectedStation: $selectedStation');
+        
         if (selectedStation == null) {
           return;
         }
+
+        // 선택된 역을 상태에 반영
         setState(() {
           if (stationType == 'start') {
             startStation = selectedStation!;

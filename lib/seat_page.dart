@@ -16,12 +16,13 @@ class SeatPage extends StatefulWidget {
 }
 
 class _SeatPageState extends State<SeatPage> {
-  final int seatNum = 20;
+  final int seatNum = 20; // 좌석 행의 개수
+  // 좌석마다 false로 초기화
   late List<List<bool>> selectedSeat = List.generate(
     4,
     (row) => List.generate(seatNum, (col) => false),
   );
-
+  // 선택한 좌석들을 저장하는 공간
   List<List<String>> selectedSeatList = [];
 
   @override
@@ -55,6 +56,7 @@ class _SeatPageState extends State<SeatPage> {
                         SizedBox(width: 50, height: 50),
                         for (int i = 1; i <= seatNum; i++)
                           Padding(
+                            // 좌석 UI에 행 번호 추가
                             padding: const EdgeInsets.symmetric(
                               horizontal: 2,
                               vertical: 4,
@@ -83,7 +85,11 @@ class _SeatPageState extends State<SeatPage> {
                   for (int j = 0; j < selectedSeat[i].length; j++) {
                     if (selectedSeat[i][j] == true) {
                       setState(() {
-                        selectedSeatList.add([String.fromCharCode(i+65), '${j + 1}']); //선택한 좌석 리스트에 [A, 1] 형태로 저장
+                        //선택한 좌석 리스트에 [A, 1] 형태로 저장
+                        selectedSeatList.add([
+                          String.fromCharCode(i + 65),
+                          '${j + 1}',
+                        ]);
                       });
                     }
                   }
@@ -94,7 +100,7 @@ class _SeatPageState extends State<SeatPage> {
                     return CupertinoAlertDialog(
                       title: Text('예매 하시겠습니까?'),
                       // 선택한 좌석 목록 출력
-                      content: Text('좌석 : ${selectedSeatList}'),
+                      content: Text('좌석 : $selectedSeatList'),
                       actions: [
                         CupertinoDialogAction(
                           child: Text(
@@ -102,6 +108,7 @@ class _SeatPageState extends State<SeatPage> {
                             style: TextStyle(fontSize: 18, color: Colors.red),
                           ),
                           onPressed: () {
+                            // 선택한 좌석 목록 초기화
                             selectedSeatList.clear();
                             Navigator.pop(context);
                           },
@@ -112,6 +119,7 @@ class _SeatPageState extends State<SeatPage> {
                             style: TextStyle(fontSize: 18, color: Colors.blue),
                           ),
                           onPressed: () {
+                            // 선택한 좌석 목록 초기화 => 나중에 기능이 추가된다면 초기화 하지 않고 데이터를 가공할 예정
                             selectedSeatList.clear();
                             Navigator.pop(context);
                           },
@@ -145,6 +153,7 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
+  // 경로를 보여주는 UI
   Widget route() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -170,6 +179,7 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
+  // 선택한 좌석 예시를 보여주는 UI
   Widget exSeat(Color color) {
     return Row(
       children: [
@@ -187,6 +197,7 @@ class _SeatPageState extends State<SeatPage> {
     );
   }
 
+  // 좌석 UI
   Widget seat(String col) {
     int i = col.codeUnitAt(0) - 65;
 
@@ -206,7 +217,7 @@ class _SeatPageState extends State<SeatPage> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    //단일 좌석만 선택 가능하도록 변경
+                    //단일 좌석만 선택 가능하도록 변경 => 현재 여러 좌석을 예매할 수 있도록 변경
                     /*selectedSeat = List.generate(
                       4,
                       (row) => List.generate(seatNum, (col) => false),

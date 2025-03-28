@@ -28,7 +28,9 @@ class StationListPage extends StatelessWidget {
     );
   }
 
+  // 역 리스트 목록 UI
   Widget station(String station, BuildContext context) {
+    // 역이 이미 선택돼 있다면 출력하지 않음
     if (station == selectedStation) {
       return SizedBox();
     }

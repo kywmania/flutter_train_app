@@ -17,19 +17,19 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.purple,
           brightness: Brightness.light,
-          ),
+        ),
         scaffoldBackgroundColor: Colors.grey[200],
         primaryColor: Colors.white,
-        unselectedWidgetColor: Colors.grey[300], 
+        unselectedWidgetColor: Colors.grey[300],
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.purple,
           brightness: Brightness.dark,
-          ),
+        ),
         scaffoldBackgroundColor: Colors.black,
         primaryColor: Colors.grey[600],
-        unselectedWidgetColor: Colors.grey[600], 
+        unselectedWidgetColor: Colors.grey[600],
       ),
       home: HomePage(),
     );
